@@ -1,7 +1,7 @@
 from shapely.geometry import Polygon, MultiPolygon
 import matplotlib.pyplot as plt
 from numpy.random import choice
-
+import numpy as np
 
 
 def make_polygon_list(layer_3D):
@@ -21,7 +21,7 @@ def make_new_layer_3D(old_layer, layer_width=0.02, l_distance=0.004):
     #layer_width- layer growth in one step
     #returns list of polygons
     
-    dist_max=int(floor(layer_width/l_distance)) # how many crossections are in the range of one layer
+    dist_max=int(np.floor(layer_width/l_distance)) # how many crossections are in the range of one layer
     zsize=len(old_layer) #how many xy layers
     new_layer=[] #list of polygons
     for i in range(zsize):
