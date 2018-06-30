@@ -1,6 +1,7 @@
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
+import numpy as np
 
 from evolver import evolve_agat
 
@@ -76,10 +77,12 @@ def load_image():
         img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
         global image_loaded
         image_loaded = True
-        hsize,vsize,qqqq=np.shape(img)
+        hsize,vsize=np.shape(img)[0:2]
         aspect=hsize/vsize
-        if(aspect<1): a.imshow(img, extent=[0, 1, 0, aspect])
-        else: a.imshow(img,extent[0,aspect,0,1])
+        if(aspect<1):
+            a.imshow(img, extent=[0, 1, 0, aspect])
+        else:
+            a.imshow(img,extent=[0,aspect,0,1])
         canvas.draw()
     except (ValueError, FileNotFoundError):
         pass
