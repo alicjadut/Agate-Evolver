@@ -73,19 +73,22 @@ txt_load = Tk.Text(master=frm_load, height=1, width=50)
 def load_image():
     agate_init(a)
     name = txt_load.get("1.0", Tk.END)[:-1]
-    try:
-        img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
-        global image_loaded
-        image_loaded = True
-        hsize,vsize=np.shape(img)[0:2]
-        aspect=hsize/vsize
-        if(aspect<1):
-            a.imshow(img, extent=[0, 1, 0, aspect])
-        else:
-            a.imshow(img,extent=[0,1 / aspect,0,1])
-        canvas.draw()
-    except (ValueError, FileNotFoundError):
-        pass
+    if len(name) > 0:
+        if name[-4:] != ".png":
+            name += ".png"
+        try:
+            img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
+            global image_loaded
+            image_loaded = True
+            hsize,vsize=np.shape(img)[0:2]
+            aspect=hsize/vsize
+            if(aspect<1):
+                a.imshow(img, extent=[0, 1, 0, aspect])
+            else:
+                a.imshow(img,extent=[0,1 / aspect,0,1])
+            canvas.draw()
+        except (ValueError, FileNotFoundError):
+            pass
 
 
 txt_save = Tk.Text(master=frm_save, height=1, width=50)
