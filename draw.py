@@ -85,7 +85,7 @@ txt_save = Tk.Text(master=frm_save, height=1, width=50)
 
 def save_image():
     try:
-        f.savefig(fname=txt_save.get("1.0", Tk.END)[:-1])
+        f.savefig(fname=txt_save.get("1.0", Tk.END)[:-1], transparent=True)
     except ValueError:
         pass
 
