@@ -68,7 +68,7 @@ frm = Tk.Frame(master=root, height=100)
 frm_load=Tk.Frame(master=frm)
 frm_save=Tk.Frame(master=frm)
 
-txt_load = Tk.Text(master=frm_load, height=1, width=50)
+txt_load = Tk.Text(master=frm_load, height=1, width=40)
 
 def load_image():
     agate_init(a)
@@ -91,7 +91,7 @@ def load_image():
             pass
 
 
-txt_save = Tk.Text(master=frm_save, height=1, width=50)
+txt_save = Tk.Text(master=frm_save, height=1, width=40)
 
 def save_image():
     try:
