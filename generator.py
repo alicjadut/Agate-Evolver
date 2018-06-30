@@ -11,7 +11,6 @@ period= (2*np.pi)/50 # period of sin in radians
 number_of_points=10000 # how many points are used in curve approximation
 
 # target curve in polar coordinates
-
 def sin_circle(fi, r_max=r_max, modulation=modulation, period=period):
   
     #returns r for the specific angle (fi)
@@ -23,7 +22,7 @@ def sin_circle(fi, r_max=r_max, modulation=modulation, period=period):
     
     return r_0 * (1 + a*np.sin(freq*fi))
  
-def make_xy_list( function=polar_curve, number_of_points=number_of_points):
+def make_xy_list( function=sin_circle, number_of_points=number_of_points):
     points_xy=[]
     for fi in np.linspace(0, 2*np.pi, number_of_points):
         x , y = function(fi)*np.cos(fi), function(fi)*np.sin(fi)
