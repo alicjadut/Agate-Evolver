@@ -13,6 +13,8 @@ else:
 marked_points = []
 cid = None
 
+image_loaded = False
+
 def agate_init(axis):
     axis.cla()
     axis.autoscale(enable=False)
@@ -44,7 +46,10 @@ def on_drag(event):
 
 def on_press(event):
     if event.button == 1:
-        agate_init(a)
+        global image_loaded
+        if not image_loaded:
+            agate_init(a)
+        image_loaded = False
         global cid
         cid = event.canvas.mpl_connect('motion_notify_event', on_drag)
 
@@ -55,22 +60,45 @@ def on_release(event):
             evolve_agat(marked_points, fig=event.canvas.figure, layer_width=0.005)
             event.canvas.draw()
 
-def load_image():
-    agate_init(a)
-    img = mpimg.imread('agat1.png')
-    a.imshow(img, extent=[0, 1, 0, 1])
-    canvas.draw()
-
 canvas.mpl_connect('button_press_event', on_press)
 canvas.mpl_connect('button_release_event', on_release)
 
 frm = Tk.Frame(master=root)
+frm_load=Tk.Frame(master=frm)
+frm_save=Tk.Frame(master=frm)
+
+txt_load = Tk.Text(master=frm_load, height=1, width=50)
+
+def load_image():
+    agate_init(a)
+    name = txt_load.get("1.0", Tk.END)[:-1]
+    try:
+        img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
+    except (ValueError, FileNotFoundError):
+        pass
+    global image_loaded
+    image_loaded = True
+    a.imshow(img, extent=[0, 1, 0, 1])
+    canvas.draw()
+
+txt_save = Tk.Text(master=frm_save, height=1, width=50)
+
+def save_image():
+    try:
+        f.savefig(fname=txt_save.get("1.0", Tk.END)[:-1])
+    except ValueError:
+        pass
+
+btn_load = Tk.Button(master=frm_load, text="Load image", command=load_image)
+
+btn_save = Tk.Button(master=frm_save, text="Save image", command=save_image)
+
 frm.pack(side=Tk.BOTTOM)
-
-btn = Tk.Button(master=frm, text="Load image", command=load_image)
-btn.pack(side=Tk.RIGHT)
-
-txt = Tk.Text(master=frm, height=1, width=50)
-txt.pack(side=Tk.LEFT)
+frm_load.pack(side=Tk.LEFT)
+frm_save.pack(side=Tk.RIGHT)
+txt_load.pack(side=Tk.LEFT)
+btn_load.pack(side=Tk.RIGHT)
+txt_save.pack(side=Tk.LEFT)
+btn_save.pack(side=Tk.RIGHT)
 
 Tk.mainloop()
