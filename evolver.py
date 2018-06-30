@@ -9,7 +9,7 @@ colours=['brown','lightblue','khaki','gold','lavender','tan','wheat','white','da
 #min_area: the evolution stops when the area inside the layer is smaller than min_area
 def evolve_agat(first_layer, custom_plot=plt, N_apexes=-1,layer_width=0.05,min_area=0.001):
     if(N_apexes==-1): N_apexes=len(first_layer)
-    fig = plt.figure(1, figsize=(5,5), dpi=90)
+    fig = custom_plot.figure(1, figsize=(5,5), dpi=90)
     ax = fig.add_subplot(111)
     ax.set_aspect(1)
     ax.set_title('Agate')
