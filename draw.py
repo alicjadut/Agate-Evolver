@@ -78,7 +78,10 @@ def load_image():
         pass
     global image_loaded
     image_loaded = True
-    a.imshow(img, extent=[0, 1, 0, 1])
+    hsize,vsize,qqqq=np.shape(img)
+    aspect=hsize/vsize
+    if(aspect<1): a.imshow(img, extent=[0, 1, 0, aspect])
+    else: a.imshow(img,extent[0,aspect,0,1])
     canvas.draw()
 
 txt_save = Tk.Text(master=frm_save, height=1, width=50)
