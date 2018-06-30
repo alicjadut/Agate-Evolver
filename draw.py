@@ -77,7 +77,7 @@ def load_image():
         if name[-4:] != ".png":
             name += ".png"
         try:
-            img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
+            img = mpimg.imread(name)
             global image_loaded
             image_loaded = True
             hsize,vsize=np.shape(img)[0:2]
