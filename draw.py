@@ -36,7 +36,6 @@ agate_init(a)
 # a tk.DrawingArea
 canvas = FigureCanvasTkAgg(f, master=root)
 canvas.draw()
-canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
 def on_drag(event):
     if event.xdata is not None and event.ydata is not None:
@@ -64,7 +63,7 @@ def on_release(event):
 canvas.mpl_connect('button_press_event', on_press)
 canvas.mpl_connect('button_release_event', on_release)
 
-frm = Tk.Frame(master=root)
+frm = Tk.Frame(master=root, height=100)
 frm_load=Tk.Frame(master=frm)
 frm_save=Tk.Frame(master=frm)
 
@@ -92,20 +91,23 @@ txt_save = Tk.Text(master=frm_save, height=1, width=50)
 
 def save_image():
     try:
+        a.axis('off')
         f.savefig(fname=txt_save.get("1.0", Tk.END)[:-1], transparent=True)
     except ValueError:
         pass
+    a.axis('on')
 
 btn_load = Tk.Button(master=frm_load, text="Load image", command=load_image)
 
 btn_save = Tk.Button(master=frm_save, text="Save image", command=save_image)
 
-frm.pack(side=Tk.BOTTOM)
-frm_load.pack(side=Tk.LEFT)
-frm_save.pack(side=Tk.RIGHT)
-txt_load.pack(side=Tk.LEFT)
-btn_load.pack(side=Tk.RIGHT)
-txt_save.pack(side=Tk.LEFT)
-btn_save.pack(side=Tk.RIGHT)
+canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+frm.place(anchor=Tk.S, relx=0.5, rely=1)
+frm_load.pack(side=Tk.LEFT, expand=1)
+frm_save.pack(side=Tk.RIGHT, expand=1)
+txt_load.pack(side=Tk.LEFT, expand=1)
+btn_load.pack(side=Tk.RIGHT, expand=1)
+txt_save.pack(side=Tk.LEFT, expand=1)
+btn_save.pack(side=Tk.RIGHT, expand=1)
 
 Tk.mainloop()
