@@ -22,11 +22,7 @@ def sin_circle(fi, r_max=r_max, modulation=modulation, period=period):
     freq = (2*np.pi)/period
     
     return r_0 * (1 + a*np.sin(freq*fi))
-
-
-def polar_curve(fi):
-    return sin_circle(fi, r_max, modulation, period)
-  
+ 
 def make_xy_list( function=polar_curve, number_of_points=number_of_points):
     points_xy=[]
     for fi in np.linspace(0, 2*np.pi, number_of_points):
@@ -34,6 +30,3 @@ def make_xy_list( function=polar_curve, number_of_points=number_of_points):
         points_xy.append((x,y))
         
     return points_xy
-    
-
-points_xy = make_xy_list(polar_curve, number_of_points)
