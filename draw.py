@@ -74,6 +74,10 @@ def load_image():
     name = txt_load.get("1.0", Tk.END)[:-1]
     try:
         img = mpimg.imread(txt_load.get("1.0", Tk.END)[:-1])
+        global image_loaded
+        image_loaded = True
+        a.imshow(img, extent=[0, 1, 0, 1])
+        canvas.draw()
     except (ValueError, FileNotFoundError):
         pass
     global image_loaded
