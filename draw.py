@@ -2,6 +2,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.image as mpimg
 import numpy as np
+from PIL import Image
 
 from evolver import evolve_agat
 
@@ -81,7 +82,7 @@ def load_image():
         if(aspect<1):
             a.imshow(img, extent=[0, 1, 0, aspect])
         else:
-            a.imshow(img,extent=[0,aspect,0,1])
+            a.imshow(img,extent=[0,1 / aspect,0,1])
         canvas.draw()
     except (ValueError, FileNotFoundError):
         pass
@@ -92,7 +93,15 @@ txt_save = Tk.Text(master=frm_save, height=1, width=50)
 def save_image():
     try:
         a.axis('off')
-        f.savefig(fname=txt_save.get("1.0", Tk.END)[:-1], transparent=True)
+        name = txt_save.get("1.0", Tk.END)[:-1]
+        if name[-4:] != ".png":
+            name += ".png"
+        f.savefig(fname=name, transparent=True)
+        im = Image.open(name).convert('P')
+        box = im.getbbox()
+        if box is not None:
+            im2 = im.crop(im.getbbox())
+            im2.save(name)
     except ValueError:
         pass
     a.axis('on')
