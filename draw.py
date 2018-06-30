@@ -1,7 +1,7 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from evolver import evolve_agat_on
+from evolver import evolve_agat
 
 import sys
 if sys.version_info[0] < 3:
@@ -9,20 +9,27 @@ if sys.version_info[0] < 3:
 else:
     import tkinter as Tk
 
+marked_points = []
+
+def agate_init(axis):
+    axis.cla()
+    axis.autoscale(enable=False)
+    global marked_points
+    marked_points = []
+
 root = Tk.Tk()
-root.wm_title("Embedding in TK")
+root.wm_title("Agate evolver")
 
 
 f = Figure(figsize=(5, 4), dpi=100)
 a = f.add_subplot(111)
-a.autoscale(enable=False)
+
+agate_init(a)
 
 # a tk.DrawingArea
 canvas = FigureCanvasTkAgg(f, master=root)
 canvas.draw()
 canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
-
-marked_points = []
 
 def on_drag(event):
     cid = None
@@ -33,22 +40,21 @@ def on_drag(event):
 
 def on_press(event):
     if event.button == 1:
+        agate_init(a)
         on_drag.cid = canvas.mpl_connect('motion_notify_event', on_drag)
 
 def on_release(event):
     if event.button == 1:
         canvas.mpl_disconnect(on_drag.cid)
-        evolve_agat_on(marked_points, event.canvas.figure.get_axes()[0])
+        evolve_agat(marked_points, event.canvas.figure.get_axes()[0])
         event.canvas.draw()
 
 canvas.mpl_connect('button_press_event', on_press)
 canvas.mpl_connect('button_release_event', on_release)
 
 def _quit():
-    root.quit()     # stops mainloop
-    root.destroy()  # this is necessary on Windows to prevent
-                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+    root.quit()
+    root.destroy()
+
 
 Tk.mainloop()
-# If you put root.destroy() here, it will cause an error if
-# the window is closed with the window manager.
