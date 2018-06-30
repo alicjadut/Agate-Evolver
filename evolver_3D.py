@@ -1,7 +1,9 @@
+#3D- evolver
+
 from shapely.geometry import Polygon, MultiPolygon
 import matplotlib.pyplot as plt
 from numpy.random import choice
-import numpy as np
+
 
 
 def make_polygon_list(layer_3D):
@@ -13,7 +15,7 @@ def make_polygon_list(layer_3D):
     return polygons
         
         
-def make_new_layer_3D(old_layer, layer_width=0.02, l_distance=0.004):
+def make_new_layer_3D(old_layer, layer_width=0.1, l_distance=0.02):
   
     #l_distance- distance between crossections
     #old_layer- list of polygons
@@ -46,7 +48,7 @@ def make_new_layer_3D(old_layer, layer_width=0.02, l_distance=0.004):
         
     return new_layer
   
-def make_N_layers_3D(first_layer, layer_width, l_distance, N):
+def make_N_layers_3D(first_layer, layer_width=0.1, l_distance=0.02, N=8):
 
     #makes N layers in 3D
     #first_layer- list of polygons, initial layer
@@ -58,7 +60,7 @@ def make_N_layers_3D(first_layer, layer_width, l_distance, N):
     
     for i in range(N):
         layers_list.append(layer)
-        layer=make_new_layer_3D(layer, 0.02, 0.004)
+        layer=make_new_layer_3D(layer, layer_width, l_distance)
         
         
     return(layers_list)
@@ -71,7 +73,11 @@ def draw_crossection(layers_list, z):
     colours=['brown','lightblue','khaki','gold','lavender','tan','wheat','white','darkgray','beige','ivory']
     
     for layer in layers_list:
-        polygon=layer[z] # z crossection
-        x,y = polygon.exterior.xy
-        plt.plot(x, y, choice(colours, 1)[0])
-        plt.fill(x, y, choice(colours,1)[0])
+        mpolygon = layer[z]
+        if(mpolygon.__class__.__name__=='Polygon'):
+            mpolygon = MultiPolygon([mpolygon])
+        for polygon in mpolygon: # z crossection
+
+            x,y = polygon.exterior.xy
+            plt.plot(x, y, choice(colours, 1)[0])
+            plt.fill(x, y, choice(colours,1)[0])
