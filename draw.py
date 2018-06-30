@@ -1,5 +1,6 @@
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import matplotlib.image as mpimg
 
 from evolver import evolve_agat
 
@@ -24,7 +25,7 @@ def agate_init(axis):
 root = Tk.Tk()
 root.wm_title("Agate evolver")
 
-f = Figure(figsize=(15, 15), dpi=90)
+f = Figure(figsize=(10, 10), dpi=90)
 a = f.add_subplot(111)
 
 agate_init(a)
@@ -45,20 +46,31 @@ def on_press(event):
     if event.button == 1:
         agate_init(a)
         global cid
-        cid = canvas.mpl_connect('motion_notify_event', on_drag)
+        cid = event.canvas.mpl_connect('motion_notify_event', on_drag)
 
 def on_release(event):
     if event.button == 1:
-        canvas.mpl_disconnect(cid)
+        event.canvas.mpl_disconnect(cid)
         if len(marked_points) >= 3:
             evolve_agat(marked_points, fig=event.canvas.figure, layer_width=0.005)
             event.canvas.draw()
 
+def load_image():
+    agate_init(a)
+    img = mpimg.imread('agat1.png')
+    a.imshow(img, extent=[0, 1, 0, 1])
+    canvas.draw()
+
 canvas.mpl_connect('button_press_event', on_press)
 canvas.mpl_connect('button_release_event', on_release)
 
-def _quit():
-    root.quit()
-    root.destroy()
+frm = Tk.Frame(master=root)
+frm.pack(side=Tk.BOTTOM)
+
+btn = Tk.Button(master=frm, text="Load image", command=load_image)
+btn.pack(side=Tk.RIGHT)
+
+txt = Tk.Text(master=frm, height=1, width=50)
+txt.pack(side=Tk.LEFT)
 
 Tk.mainloop()
