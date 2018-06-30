@@ -13,4 +13,6 @@ def evolve_agat(first_layer, N_apexes=-1,layer_width=0.05,min_area=0.001):
             x,y=polygon.exterior.xy
             plt.plot(x,y)
         layer=layer.buffer(-layer_width,N_apexes)
+        if(layer.__class__.__name__=='Polygon'):
+            layer=MultiPolygon([layer])
 
