@@ -1,8 +1,8 @@
-#Agate evolver
+# Agate evolver
 
 __Instalacja potrzebnych bibliotek:__ pip install -r requirements.txt
 
-##Agate evolver 2D
+## Agate evolver 2D
 
 __Uruchomienie agate evolvera 2D:__ python3 draw.py
 
@@ -14,7 +14,7 @@ Dostępne ustawienia:
 
 W folderze pictures znajdują się przykłady prawdziwych agatów oraz modeli wygenerowanych na podstawie ich konturów.
 
-##Agate evolver 3D (przykład)
+## Agate evolver 3D (przykład)
 
 __Uruchomienie agate evolvera 3D:__ python3 3d_evolver_example.py
 
