@@ -8,7 +8,7 @@ __Uruchomienie agate evolvera 2D:__ python3 draw.py
 
 Agate evolver 2D umożliwia wygenerowanie agatu o narysowanym odręcznie obrysie. Pozwala na wgranie obrazu w formacie PNG, na którym można zaznaczyć kontur generowanego agatu. Wygenerowane obrazy można zapisać w formacie PNG.
 
-Dostępne ustawienia:
+Dostępne ustawienia (pole rysowania ma wymiary 1x1):
 *  `layer width`: Grubość kolejnych warstw generowanego agatu
 *  `min area`: Gdy powierzchnia zamknięta przez wewnętrzne warstwy generowanego agatu spadnie poniżej tej wartości, generowanie jest przerywane
 
