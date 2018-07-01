@@ -15,6 +15,9 @@ else:
 marked_points = []
 cid = None
 
+layer_width = 0.005
+min_area = 0.001
+
 image_loaded = False
 
 def agate_init(axis):
@@ -58,15 +61,17 @@ def on_release(event):
     if event.button == 1:
         event.canvas.mpl_disconnect(cid)
         if len(marked_points) >= 3:
-            evolve_agat(marked_points, fig=event.canvas.figure, layer_width=0.005)
+            evolve_agat(marked_points, fig=event.canvas.figure, layer_width=layer_width, min_area=min_area)
             event.canvas.draw()
 
 canvas.mpl_connect('button_press_event', on_press)
 canvas.mpl_connect('button_release_event', on_release)
 
 frm = Tk.Frame(master=root, height=100)
-frm_load=Tk.Frame(master=frm)
-frm_save=Tk.Frame(master=frm)
+frm_file = Tk.Frame(master=frm)
+frm_load = Tk.Frame(master=frm_file)
+frm_save = Tk.Frame(master=frm_file)
+frm_params = Tk.Frame(master=frm)
 
 txt_load = Tk.Text(master=frm_load, height=1, width=40)
 
@@ -109,17 +114,55 @@ def save_image():
         pass
     a.axis('on')
 
-btn_load = Tk.Button(master=frm_load, text="Load image", command=load_image)
+frm_layer_width = Tk.Frame(master=frm_params)
+frm_min_area = Tk.Frame(master=frm_params)
+txt_layer_width = Tk.Text(master=frm_layer_width, height=1, width=10)
+txt_min_area = Tk.Text(master=frm_min_area, height=1, width=10)
 
+def set_param(param):
+    if param == "layer_width":
+        try:
+            global layer_width
+            layer_width = float(txt_layer_width.get("1.0", Tk.END)[:-1])
+        except ValueError:
+            pass
+    elif param == "min_area":
+        try:
+            global min_area
+            min_area = float(txt_min_area.get("1.0", Tk.END)[:-1])
+        except ValueError:
+            pass
+
+btn_load = Tk.Button(master=frm_load, text="Load image", command=load_image)
 btn_save = Tk.Button(master=frm_save, text="Save image", command=save_image)
+btn_layer_width = Tk.Button(master=frm_layer_width, text="Set layer width", command=lambda: set_param("layer_width"))
+btn_min_area = Tk.Button(master=frm_min_area, text="Set min area", command=lambda: set_param("min_area"))
 
 canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 frm.place(anchor=Tk.S, relx=0.5, rely=1)
+frm_file.pack(side=Tk.TOP, expand=1)
+frm_params.pack(side=Tk.BOTTOM, expand=1)
 frm_load.pack(side=Tk.LEFT, expand=1)
 frm_save.pack(side=Tk.RIGHT, expand=1)
 txt_load.pack(side=Tk.LEFT, expand=1)
 btn_load.pack(side=Tk.RIGHT, expand=1)
 txt_save.pack(side=Tk.LEFT, expand=1)
 btn_save.pack(side=Tk.RIGHT, expand=1)
+frm_layer_width.pack(expand=1)
+frm_min_area.pack(expand=1)
+txt_layer_width.pack(side=Tk.LEFT, expand=1)
+btn_layer_width.pack(side=Tk.RIGHT, expand=1)
+txt_min_area.pack(side=Tk.LEFT, expand=1)
+btn_min_area.pack(side=Tk.RIGHT, expand=1)
+
+def check_enter(event, button):
+    if event.keysym == 'Return':
+        button.invoke()
+        return 'break'
+
+txt_load.bind('<Key>', lambda event: check_enter(event, btn_load))
+txt_save.bind('<Key>', lambda event: check_enter(event, btn_save))
+txt_layer_width.bind('<Key>', lambda event: check_enter(event, btn_layer_width))
+txt_min_area.bind('<Key>', lambda event: check_enter(event, btn_min_area))
 
 Tk.mainloop()
