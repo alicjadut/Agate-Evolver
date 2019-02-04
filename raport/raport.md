@@ -1,3 +1,5 @@
+
+
 ## Interfejs użytkownika
 Okno programu przedstawione jest na rysunku 1.
 
@@ -29,3 +31,10 @@ Użytkownik może ustawić minimalną powierzchnię, dla której będą generowa
 ![Rysunek 5. różne powierzchnie wewnętrzne](obrazy/rozne_powierzchnie_wewnetrzne.png)
 *Rysunek 5. różne powierzchnie wewnętrzne*
 
+##Podsumowanie
+
+![Porównanie prawdziwych agatów z wygenerowanymi na podstawie modelu 2d](obrazy/comparison/1.png)
+![](obrazy/comparison/2.png)
+![](obrazy/comparison/3.png)
+![](obrazy/comparison/4.png)
+![](obrazy/comparison/5.png)
