@@ -29,3 +29,9 @@ def make_xy_list( function=sin_circle, number_of_points=number_of_points):
         points_xy.append((x,y))
         
     return points_xy
+
+def polar_curve(modulation = 0.3, freq = 2/3):
+    r_0 = 1/(1 + modulation) #average radius
+    a = r_0*modulation #amplitude of sin
+    f = lambda fi : r_0 * (1 + a*np.sin((freq*fi)**2))
+    return make_xy_list(f,1000)
